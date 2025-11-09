@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+body{
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2{
+  font-family: 'Roboto', sans-serif;
+}
+
+@layer utilities{
+  .gradient{
+    background: linear-gradient(-45deg, #1D2B53, #4B3D8A, #935D8C)
+  }
+
+  @keyframes loading{
+    0%{
+      transform: translateX(-100%);
+    }
+    100%{
+      transform: translateX(250%);
+    }
+  }
+  @keyframes blink{
+    0%, 100%{
+      opacity: 1;
+    }
+    50%{
+      opacity: 0;
+    }
+  }
+
+  .animate-blink{
+    animation: blink 0.8s step-end infinite
+  }
+  .animate-loading-bar{
+    animation: loading 0.8s ease infinite
+  }
+}

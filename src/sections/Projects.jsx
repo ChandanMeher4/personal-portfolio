@@ -9,8 +9,8 @@ import todoDesktop from "../assets/todo-desktop.png";
 import todoMobile from "../assets/todo-mobile.png";
 import carbonDesktop from "../assets/carbon-tracker-desktop.png";
 import carbonMobile from "../assets/carbon-tracker-mobile.png";
-import musicDesktop from "../assets/music-player-desktop.png";
-import musicMobile from "../assets/music-player-mobile.png";
+import echoeDesktop from "../assets/echoe-desktop.png"
+import echoeMobile from "../assets/echoe-mobile.png"
 
 const useIsMobile = (query = "(max-width: 639px)") => {
   const [isMobile, setIsMobile] = useState(
@@ -54,10 +54,10 @@ const Projects = () => {
         tech: ["React", "Tailwind CSS", "Local Storage"],
       },
       {
-        title: "Musicfy",
-        link: "https://music-fy-2929.netlify.app/",
+        title: "Echoe-Chat-App",
+        link: "https://echoe-chat-app.netlify.app/",
         bgColor: "#313131",
-        image: isMobile ? musicMobile : musicDesktop,
+        image: isMobile ? echoeMobile : echoeDesktop,
         description:
           "A concept UI for a modern music streaming service, built with a focus on clean design and animations.",
         tech: ["HTML", "CSS", "JavaScript"],

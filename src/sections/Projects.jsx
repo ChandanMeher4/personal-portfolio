@@ -9,8 +9,8 @@ import todoDesktop from "../assets/todo-desktop.png";
 import todoMobile from "../assets/todo-mobile.png";
 import carbonDesktop from "../assets/carbon-tracker-desktop.png";
 import carbonMobile from "../assets/carbon-tracker-mobile.png";
-import echoeDesktop from "../assets/echoe-desktop.png"
-import echoeMobile from "../assets/echoe-mobile.png"
+import echoeDesktop from "../assets/echoe-desktop.png";
+import echoeMobile from "../assets/echoe-mobile.png";
 
 const useIsMobile = (query = "(max-width: 639px)") => {
   const [isMobile, setIsMobile] = useState(
@@ -51,16 +51,16 @@ const Projects = () => {
         image: isMobile ? todoMobile : todoDesktop,
         description:
           "A sleek, responsive todo application with local storage persistence and filterable categories.",
-        tech: ["React", "Tailwind CSS", "Local Storage"],
+        tech: ["React", "Tailwind CSS", "Local Storage", "Vite"],
       },
       {
         title: "Echoe-Chat-App",
         link: "https://echoe-chat-app.netlify.app/",
-        bgColor: "#313131",
+        bgColor: "#0F172B",
         image: isMobile ? echoeMobile : echoeDesktop,
         description:
-          "A concept UI for a modern music streaming service, built with a focus on clean design and animations.",
-        tech: ["HTML", "CSS", "JavaScript"],
+          "A real-time chat application with instant messaging, secure login, and smooth message syncing.",
+        tech: ["React", "Vite", "Chart.js", "Tailwind CSS", "Firebase"],
       },
     ],
     [isMobile]
@@ -162,7 +162,7 @@ const Projects = () => {
                 {activeIndex == index && (
                   <motion.div
                     key={`${project.title}-desc`}
-                    initial={{ opacity: 0, y: 30 }} 
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -30 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}

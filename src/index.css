@@ -1,39 +1,162 @@
 @import "tailwindcss";
 
-body{
-  font-family: 'Poppins', sans-serif;
+/* ── Base ─────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
 
-h1, h2{
-  font-family: 'Roboto', sans-serif;
+body {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  background: #000;
+  overflow-x: hidden;
 }
 
-@layer utilities{
-  .gradient{
-    background: linear-gradient(-45deg, #1D2B53, #4B3D8A, #935D8C)
+h1, h2, h3 {
+  font-family: 'Space Grotesk', 'Roboto', sans-serif;
+}
+
+code, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Custom Selection ────────────────────────────── */
+::selection {
+  background: rgba(0, 198, 255, 0.3);
+  color: #fff;
+}
+
+/* ── Custom Scrollbar ────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00C6FF, #0072FF);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00d4ff, #0088ff);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0072FF #0a0a0a;
+}
+
+/* ── Tailwind Utilities ──────────────────────────── */
+@layer utilities {
+  .gradient {
+    background: linear-gradient(-45deg, #1D2B53, #4B3D8A, #935D8C);
   }
 
-  @keyframes loading{
-    0%{
-      transform: translateX(-100%);
-    }
-    100%{
-      transform: translateX(250%);
-    }
+  /* Intro Animations */
+  @keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
   }
-  @keyframes blink{
-    0%, 100%{
-      opacity: 1;
-    }
-    50%{
-      opacity: 0;
-    }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 
-  .animate-blink{
-    animation: blink 0.8s step-end infinite
+  .animate-blink {
+    animation: blink 0.8s step-end infinite;
   }
-  .animate-loading-bar{
-    animation: loading 0.8s ease infinite
+  .animate-loading-bar {
+    animation: loading 0.8s ease infinite;
+  }
+
+  /* Gradient text utility */
+  .text-gradient {
+    background: linear-gradient(135deg, #00C6FF 0%, #0072FF 50%, #7B2FFF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effects */
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.3), 0 0 60px rgba(0, 114, 255, 0.1);
+  }
+  .glow-blue-lg {
+    box-shadow: 0 0 30px rgba(0, 198, 255, 0.4), 0 0 80px rgba(0, 114, 255, 0.15);
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* Animated gradient border */
+  @keyframes border-rotate {
+    0% { --angle: 0deg; }
+    100% { --angle: 360deg; }
+  }
+
+  /* Dot grid pattern */
+  .dot-grid {
+    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  /* Subtle grid pattern */
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Shimmer effect */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .shimmer {
+    background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Float animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Pulse glow */
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(0, 198, 255, 0.4), 0 0 80px rgba(0, 114, 255, 0.2); }
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  /* Draw line animation */
+  @keyframes draw-line {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  /* Scroll indicator bounce */
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0) translateX(-50%); }
+    50% { transform: translateY(12px) translateX(-50%); }
   }
 }

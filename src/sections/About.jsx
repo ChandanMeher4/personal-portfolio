@@ -1,140 +1,185 @@
-import React from "react";
-import { motion, spring } from "framer-motion";
-import profilePic from "../assets/profile-pic.jpg";
-import ParticlesBackground from "../components/particlesBackground";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import profilePic from "../assets/profile-pic.jpeg";
 
 const About = () => {
-  const glows = [
-    "-top-10 -left-10 w-[360px] h-[360px] opacity-20 blur-[120px]",
-    "bottom-0 right-10 w-[420px] h-[420px] opacity-15 blur-[140px] delay-300",
-  ];
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   const stats = [
-    { label: "Experience", value: "B.Tech (CSE) student" },
-    { label: "Speciality", value: "Frontend Development" },
-    { label: "Focus", value: "Performance, design & usability" },
+    { label: "Projects Built", value: "4+", icon: "🚀" },
+    { label: "Technologies", value: "10+", icon: "⚡" },
+    { label: "Focus Area", value: "Frontend", icon: "🎨" },
   ];
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
 
   return (
     <section
       id="about"
+      ref={sectionRef}
       className="min-h-screen w-full flex items-center justify-center relative text-white overflow-hidden bg-black py-24"
     >
+      {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none">
-        {glows.map((glow, index) => (
-          <div
-            key={index}
-            className={`absolute rounded-full bg-linear-to-r from-[#1D2B53] via-[#4B3D8A] to-[#935D8C] animate-pulse ${glow} `}
-          ></div>
-        ))}
+        <div className="absolute -top-20 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/8 to-blue-600/5 blur-[150px]" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/5 to-cyan-500/8 blur-[150px]" />
+        <div className="absolute inset-0 dot-grid opacity-50" />
       </div>
 
-      <div className="relative z-10 max-w-6xl w-full mx-auto px-6 md:px-10 lg:px-12 py-20 flex flex-col gap-y-16">
-        <motion.div
-          className="flex flex-col md:flex-row items-center md:items-start gap-12"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
+      <motion.div
+        className="relative z-10 max-w-6xl w-full mx-auto px-6 md:px-10 lg:px-12"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+      >
+        {/* Section header */}
+        <motion.div className="text-center mb-16" variants={itemVariants}>
+          <span className="text-xs font-mono text-cyan-400 uppercase tracking-[0.3em] mb-4 block">
+            Get to know me
+          </span>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+            <span className="text-gradient">About Me</span>
+          </h2>
           <motion.div
-            className="relative w-40 h-40 md:w-[200px] md:h-[200px] rounded-2xl overflow-hidden shadow-2xl bg-linear-to-br from-[#4B3D8A]/20 to-[#1D2B53]/20 border border-[#4B3D8A]/25 shrink-0"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 200, damping: 10 }}
+            className="mt-4 h-[2px] w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-blue-600"
+            initial={{ width: 0 }}
+            animate={isInView ? { width: 64 } : { width: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          />
+        </motion.div>
+
+        {/* Main content — two columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+          {/* Left: Profile card */}
+          <motion.div
+            className="lg:col-span-2 flex justify-center"
+            variants={itemVariants}
           >
-            <img
-              src={profilePic}
-              alt="Profile Picture"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+            <div className="relative group">
+              {/* Glow behind card */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <div className="relative glass-strong rounded-2xl p-6 text-center">
+                {/* Profile image */}
+                <div className="relative w-36 h-36 mx-auto mb-6">
+                  <motion.div
+                    className="absolute -inset-1 rounded-full"
+                    style={{
+                      background: "conic-gradient(from 0deg, #00C6FF, #0072FF, #7B2FFF, #00C6FF)",
+                      opacity: 0.5,
+                    }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  />
+                  <div className="absolute inset-0 rounded-full bg-black" />
+                  <img
+                    src={profilePic}
+                    alt="Chandan Meher"
+                    className="relative z-10 w-full h-full object-cover rounded-full"
+                  />
+                </div>
+
+                <h3 className="text-2xl font-bold text-white">Chandan Meher</h3>
+                <p className="mt-1 text-sm font-mono text-cyan-400">Full-Stack Developer</p>
+                <p className="mt-1 text-xs text-gray-500">B.Tech (CSE) Student</p>
+
+                {/* Mini stats */}
+                <div className="mt-6 grid grid-cols-3 gap-2">
+                  {stats.map((stat, i) => (
+                    <div key={i} className="text-center p-2">
+                      <div className="text-lg mb-1">{stat.icon}</div>
+                      <div className="text-xl font-bold text-white">{stat.value}</div>
+                      <div className="text-[10px] text-gray-500 uppercase tracking-wider">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <div className="mt-6 flex gap-3">
+                  <motion.a
+                    href="#projects"
+                    className="flex-1 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#00C6FF] to-[#0072FF] rounded-xl text-center"
+                    whileHover={{ scale: 1.03, y: -1 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    Projects
+                  </motion.a>
+                  <motion.a
+                    href="#contact"
+                    className="flex-1 py-2.5 text-sm font-semibold text-white border border-white/10 bg-white/5 rounded-xl text-center hover:bg-white/10 transition-colors"
+                    whileHover={{ scale: 1.03, y: -1 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    Contact
+                  </motion.a>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
-          <div className="flex-1 flex flex-col justify-center text-center md:text-left">
-            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
-              Chandan Meher
-            </h2>
+          {/* Right: Text content */}
+          <motion.div
+            className="lg:col-span-3 space-y-8"
+            variants={containerVariants}
+          >
+            <motion.div variants={itemVariants}>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                Crafting Digital Experiences
+              </h3>
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
+                I'm a Frontend developer with a strong focus on creating
+                efficient, user-centered web applications. I enjoy solving
+                real-world problems through clean design and thoughtful development.
+              </p>
+            </motion.div>
 
-            <p className="mt-2 text-lg sm:text-xl font-semibold bg-clip-text text-transparent bg-linear-to-r from-[#00C6FF] to-[#0072FF]">
-              Frontend Developer
-            </p>
+            <motion.div variants={itemVariants}>
+              <p className="text-gray-500 leading-relaxed text-base sm:text-lg">
+                Driven by curiosity and attention to detail, I aim to build
+                reliable, high-performing solutions that deliver both functionality
+                and great user experience. My toolkit spans React, Vite, JavaScript,
+                and Tailwind CSS — bringing ideas from concept to production.
+              </p>
+            </motion.div>
 
-            <p className="mt-4 text-gray-300 leading-relaxed text-base sm:text-lg max-w-2xl md:max-w-3xl">
-              I build modern, responsive applications with a strong focus on
-              clean design, delightful UX, and performance. My toolkit spans
-              React, Vite, JavaScript, and Tailwind CSS, bringing ideas to life
-              from concept to production with smooth, engaging user interfaces.
-            </p>
-
-            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-xl">
-              {stats.map((stat, index) => (
+            {/* Highlight cards */}
+            <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-4" variants={containerVariants}>
+              {[
+                { label: "Experience", value: "B.Tech CSE Student", sub: "Passionate learner" },
+                { label: "Speciality", value: "Frontend Dev", sub: "React & Tailwind" },
+                { label: "Focus", value: "Performance", sub: "Design & UX" },
+              ].map((item, i) => (
                 <motion.div
-                  key={index}
-                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center sm:text-left"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  viewport={{ once: true, amount: 0.3 }}
+                  key={i}
+                  className="glass rounded-xl p-4 group hover:bg-white/[0.06] transition-all duration-300"
+                  variants={itemVariants}
+                  whileHover={{ y: -3 }}
                 >
-                  <div className="text-sm text-gray-400">{stat.label}</div>
-                  <div className="text-base font-semibold">{stat.value}</div>
+                  <div className="text-xs text-cyan-400/70 font-mono uppercase tracking-wider mb-1">{item.label}</div>
+                  <div className="text-base font-semibold text-white">{item.value}</div>
+                  <div className="text-xs text-gray-500 mt-0.5">{item.sub}</div>
                 </motion.div>
               ))}
-            </div>
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <motion.a
-                href="#projects"
-                className="inline-flex items-center justify-center rounded-full bg-linear-to-r from-[#00C6FF] to-[#0072FF] text-white font-semibold px-6 py-3"
-                whileHover={{
-                  scale: 1.05,
-                  y: -3,
-                  transition: { duration: 0.2 },
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                View Projects
-              </motion.a>
-              <motion.a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-full border-2 border-[#00C6FF] text-[#00C6FF] font-semibold px-6 py-3"
-                whileHover={{
-                  scale: 1.05,
-                  y: -3,
-                  backgroundColor: "#00C6FF",
-                  color: "#000000",
-                  transition: { duration: 0.2 },
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get In Touch
-              </motion.a>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="text-center md:text-left "
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-            About Me
-          </h3>
-          <p className="text-gray-300 leading-relaxed text-base sm:text-lg">
-            I'm a Frontend developer with a strong focus on creating
-            efficient, user-centered web applications. I enjoy solving
-            real-world problems through clean design and thoughtful development.
-          </p>
-          <p className="mt-4 text-gray-400 text-base sm:text-lg leading-relaxed">
-            {" "}
-            Driven by curiosity and attention to detail, I aim to build
-            reliable, high-performing solutions that deliver both functionality
-            and great user experience.
-          </p>
-        </motion.div>
-      </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 };

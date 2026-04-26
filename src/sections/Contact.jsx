@@ -66,7 +66,7 @@ function Contact() {
       icon: HiOutlineMail,
       label: "Email",
       value: "chandanmeher112@gmail.com",
-      href: "mailto:chandanmeher112@gmail.com",
+      href: "mailto:mchandan1204@gmail.com",
     },
     {
       icon: FaGithub,

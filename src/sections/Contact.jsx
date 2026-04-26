@@ -65,7 +65,7 @@ function Contact() {
     {
       icon: HiOutlineMail,
       label: "Email",
-      value: "chandanmeher112@gmail.com",
+      value: "mchandan1204@gmail.com",
       href: "mailto:mchandan1204@gmail.com",
     },
     {

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — Chapter Not Found | Chandan Meher</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#F2F0E8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #F2F0E8;
+        color: #20221E;
+        font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        line-height: 1.5;
+        selection-background-color: #20221E;
+        selection-color: #F2F0E8;
+      }
+      .mono {
+        font-family: 'IBM Plex Mono', monospace;
+      }
+      .serif {
+        font-family: 'Newsreader', Georgia, serif;
+      }
+      header {
+        width: 100%;
+        height: 76px;
+        border-bottom: 1px solid #D7D3C8;
+        background-color: #F2F0E8;
+      }
+      .header-inner {
+        max-width: 1360px;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        text-decoration: none;
+        color: #20221E;
+        font-weight: 600;
+      }
+      .brand:hover {
+        color: #C74E36;
+      }
+      .brand-sub {
+        font-size: 12px;
+        font-weight: 400;
+        color: #777970;
+      }
+      .return-link {
+        font-size: 12px;
+        text-decoration: none;
+        color: #777970;
+        transition: color 0.15s;
+      }
+      .return-link:hover {
+        color: #C74E36;
+      }
+      main {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 64px 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .badge {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: #C74E36;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #D7D3C8;
+        margin-bottom: 24px;
+      }
+      .badge-dot {
+        width: 6px;
+        height: 6px;
+        background-color: #C74E36;
+        display: inline-block;
+      }
+      h1 {
+        font-size: clamp(36px, 6vw, 68px);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+        color: #20221E;
+        margin-bottom: 16px;
+      }
+      .subtitle {
+        font-size: clamp(20px, 3vw, 28px);
+        font-style: italic;
+        color: #777970;
+        line-height: 1.3;
+        margin-bottom: 32px;
+        max-width: 720px;
+      }
+      .diagnostics {
+        background-color: #E9E6DC;
+        border: 1px solid #D7D3C8;
+        padding: 24px;
+        max-width: 580px;
+        margin-bottom: 40px;
+        font-size: 12px;
+        color: #777970;
+      }
+      .diag-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #D7D3C8;
+      }
+      .diag-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .diag-val-err {
+        color: #C74E36;
+        font-weight: 600;
+      }
+      .diag-val-ok {
+        color: #20221E;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .btn-primary {
+        background-color: #C74E36;
+        color: #F2F0E8;
+        padding: 14px 28px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.15s;
+      }
+      .btn-primary:hover {
+        background-color: #B3412B;
+      }
+      .btn-secondary {
+        border: 1px solid #20221E;
+        color: #20221E;
+        padding: 14px 28px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.15s;
+      }
+      .btn-secondary:hover {
+        background-color: #20221E;
+        color: #F2F0E8;
+      }
+      footer {
+        border-top: 1px solid #D7D3C8;
+        padding: 24px;
+        text-align: center;
+        font-size: 12px;
+        color: #777970;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <a href="/" class="brand mono">
+          <span>CM.</span>
+          <span class="brand-sub">/ 404 Error</span>
+        </a>
+        <a href="/" class="return-link mono">← Return to Index</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="badge mono">
+        <span class="badge-dot"></span>
+        <span>HTTP 404 / Missing Index Record</span>
+      </div>
+
+      <h1>Chapter not found in active index.</h1>
+      <p class="subtitle serif">The requested URL does not correspond to an active engineering case study or catalog entry.</p>
+
+      <div class="diagnostics mono">
+        <div class="diag-row">
+          <span>HTTP_STATUS</span>
+          <span class="diag-val-err">404 NOT_FOUND</span>
+        </div>
+        <div class="diag-row">
+          <span>INDEX_SCOPE</span>
+          <span class="diag-val-ok">The Working Index (2026 Edition)</span>
+        </div>
+        <div class="diag-row">
+          <span>RECOMMENDED_ACTION</span>
+          <span class="diag-val-ok">Return to primary homepage index</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="/" class="btn-primary">← Return to Home Index</a>
+        <a href="/#work" class="btn-secondary">Browse Selected Work ↘</a>
+      </div>
+    </main>
+
+    <footer class="mono">
+      <span>Chandan Meher · Software Engineering · The Working Index 2026</span>
+    </footer>
+  </body>
+</html>

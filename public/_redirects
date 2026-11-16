@@ -1,1 +1,10 @@
-/*    /index.html   200
+/                 /index.html                   200
+/work/foundr      /work/foundr/index.html       200
+/work/foundr/     /work/foundr/index.html       200
+/work/mergemind   /work/mergemind/index.html    200
+/work/mergemind/  /work/mergemind/index.html    200
+/work/awaz        /work/awaz/index.html         200
+/work/awaz/       /work/awaz/index.html         200
+/work/echoe       /work/echoe/index.html        200
+/work/echoe/      /work/echoe/index.html        200
+/*                /404.html                     404

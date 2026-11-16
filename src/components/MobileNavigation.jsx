@@ -84,7 +84,7 @@ const MobileNavigation = ({ isOpen, onClose, activeSection, navItems }) => {
           <span>Bengaluru, India</span>
         </div>
         <a
-          href="/resume-full-stack(2).pdf"
+          href="/resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#20221E] hover:text-[#C74E36] underline"

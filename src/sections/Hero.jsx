@@ -85,8 +85,8 @@ const Hero = () => {
 
               {/* Secondary Outline Action */}
               <motion.a
-                href="/resume-full-stack(2).pdf"
-                download
+                href="/resume.pdf"
+                download="Chandan_Meher_Resume.pdf"
                 className="inline-flex items-center justify-center gap-1.5 px-6 py-3.5 border border-[#20221E] text-[#20221E] font-medium text-sm rounded-none group"
                 whileHover={{ backgroundColor: "#20221E", color: "#F2F0E8" }}
                 whileTap={{ scale: 0.98 }}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="12" fill="#272B25" />
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="none" stroke="#3F453D" stroke-width="1.5" />
+  <text x="14" y="42" font-family="'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="700" fill="#F2F0E8" letter-spacing="-1">CM</text>
+  <rect x="47" y="34" width="5.5" height="5.5" fill="#C74E36" />
+</svg>

@@ -11,10 +11,85 @@ const ProjectCaseStudy = () => {
   const projectIndex = projects.findIndex((p) => p.id === id);
   const project = projects[projectIndex];
 
-  // Scroll to top on mount
+  // Scroll to top and set dynamic project title, canonical, and social metadata
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+
+    const HOME_URL = "https://personal-portfolio-0906.netlify.app/";
+    const HOME_TITLE = "Chandan Meher — Software Engineer | The Working Index";
+    const HOME_DESC =
+      "Portfolio and engineering archive of Chandan Meher — Computer Science student at DSCE building full-stack products, developer tooling, and applied AI systems.";
+    const HOME_OG_DESC =
+      "Engineering portfolio and project archive: Foundr, MergeMind, Awaz, Echoe. B.E. CS at DSCE, ModelSuite.ai, GSSoC Top 1.1%.";
+
+    if (project) {
+      const cleanTitle = project.title.replace(".", "");
+      const projectUrl = `https://personal-portfolio-0906.netlify.app/work/${project.id}`;
+      const pageTitle = `${cleanTitle} — Engineering Case Study | Chandan Meher`;
+      const pageDesc = `${cleanTitle}: ${project.description}`;
+
+      // Dynamic document title
+      document.title = pageTitle;
+
+      // Dynamic Canonical URL (Prevents homepage canonical inheritance)
+      const canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (canonicalEl) {
+        canonicalEl.setAttribute("href", projectUrl);
+      }
+
+      // Meta Description
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute("content", pageDesc);
+
+      // Open Graph Tags
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute("content", projectUrl);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute("content", pageTitle);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute("content", pageDesc);
+
+      // Twitter Card Tags
+      const twUrl = document.querySelector('meta[name="twitter:url"]');
+      if (twUrl) twUrl.setAttribute("content", projectUrl);
+
+      const twTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twTitle) twTitle.setAttribute("content", pageTitle);
+
+      const twDesc = document.querySelector('meta[name="twitter:description"]');
+      if (twDesc) twDesc.setAttribute("content", pageDesc);
+    }
+
+    return () => {
+      document.title = HOME_TITLE;
+
+      const canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (canonicalEl) canonicalEl.setAttribute("href", HOME_URL);
+
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute("content", HOME_DESC);
+
+      const ogUrl = document.querySelector('meta[property="og:url"]');
+      if (ogUrl) ogUrl.setAttribute("content", HOME_URL);
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute("content", HOME_TITLE);
+
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute("content", HOME_OG_DESC);
+
+      const twUrl = document.querySelector('meta[name="twitter:url"]');
+      if (twUrl) twUrl.setAttribute("content", HOME_URL);
+
+      const twTitle = document.querySelector('meta[name="twitter:title"]');
+      if (twTitle) twTitle.setAttribute("content", HOME_TITLE);
+
+      const twDesc = document.querySelector('meta[name="twitter:description"]');
+      if (twDesc) twDesc.setAttribute("content", HOME_OG_DESC);
+    };
+  }, [id, project]);
 
   if (!project) {
     return (

@@ -99,7 +99,7 @@ const Header = () => {
           {/* Right Action: Resume & Mobile Hamburger */}
           <div className="flex items-center gap-6">
             <motion.a
-              href="/resume-full-stack(2).pdf"
+              href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[13px] font-medium text-[#20221E] hover:text-[#C74E36] flex items-center gap-1.5 transition-colors group"

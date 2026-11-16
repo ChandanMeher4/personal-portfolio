@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import Hero from "./sections/Hero.jsx";
@@ -9,10 +9,38 @@ import Experience from "./sections/Experience.jsx";
 import Contact from "./sections/Contact.jsx";
 import Footer from "./sections/Footer.jsx";
 import ProjectCaseStudy from "./pages/ProjectCaseStudy.jsx";
+import NotFound from "./pages/NotFound.jsx";
+import EditorialIntro from "./components/EditorialIntro.jsx";
 
 const HomePage = () => {
+  const [showIntro, setShowIntro] = useState(() => {
+    if (typeof window === "undefined") return false;
+    // Allow manual replay with ?intro=true
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("intro") === "true") return true;
+
+    // First visit only check
+    try {
+      return !localStorage.getItem("cm_editorial_intro_seen");
+    } catch {
+      return false;
+    }
+  });
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+    try {
+      localStorage.setItem("cm_editorial_intro_seen", "true");
+    } catch {
+      // Ignore storage errors if private browsing restricts it
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#F2F0E8] text-[#20221E] flex flex-col selection:bg-[#20221E] selection:text-[#F2F0E8]">
+    <div className="min-h-screen bg-[#F2F0E8] text-[#20221E] flex flex-col selection:bg-[#20221E] selection:text-[#F2F0E8] relative">
+      {/* Editorial Opening Cover (850ms, First-visit only) */}
+      {showIntro && <EditorialIntro onComplete={handleIntroComplete} />}
+
       {/* Persistent Editorial Header */}
       <Header />
 
@@ -48,7 +76,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/work/:id" element={<ProjectCaseStudy />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <style>
+      .mono { font-family: 'IBM Plex Mono', monospace, ui-monospace, SFMono-Regular, Menlo, monospace; }
+      .sans { font-family: 'Instrument Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+      .serif { font-family: 'Newsreader', Georgia, Cambria, 'Times New Roman', serif; }
+    </style>
+  </defs>
+
+  <!-- Background Carbon -->
+  <rect width="1200" height="630" fill="#272B25" />
+
+  <!-- Inner Editorial Framing -->
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#3F453D" stroke-width="2" />
+  
+  <!-- Red Top Registration Bar -->
+  <rect x="40" y="40" width="280" height="4" fill="#C74E36" />
+
+  <!-- Monogram Brand Badge -->
+  <g transform="translate(80, 80)">
+    <text class="sans" x="0" y="32" font-size="34" font-weight="700" fill="#F2F0E8" letter-spacing="-1">CM</text>
+    <rect x="52" y="24" width="7" height="7" fill="#C74E36" />
+    <text class="mono" x="78" y="26" font-size="14" fill="#9BA097" letter-spacing="2">/ CHANDAN MEHER</text>
+  </g>
+
+  <!-- Header Right Metadata -->
+  <text class="mono" x="1120" y="106" text-anchor="end" font-size="13" fill="#9BA097" letter-spacing="1.5">THE WORKING INDEX · 2026</text>
+
+  <!-- Divider Line -->
+  <line x1="80" y1="140" x2="1120" y2="140" stroke="#3F453D" stroke-width="1" />
+
+  <!-- Main Statement -->
+  <text class="sans" x="80" y="240" font-size="58" font-weight="700" fill="#F2F0E8" letter-spacing="-1.5">
+    I build full-stack products,
+  </text>
+  <text class="sans" x="80" y="315" font-size="58" font-weight="700" fill="#F2F0E8" letter-spacing="-1.5">
+    from interface to backend.
+  </text>
+
+  <!-- Editorial Sub-statement in Serif Italic -->
+  <text class="serif" x="80" y="385" font-size="28" font-style="italic" fill="#9BA097">
+    Software engineering student focused on reliable foundations, applied AI &amp; distributed systems.
+  </text>
+
+  <!-- Bottom Divider Line -->
+  <line x1="80" y1="450" x2="1120" y2="450" stroke="#3F453D" stroke-width="1" />
+
+  <!-- Bottom Metadata Grid -->
+  <g transform="translate(80, 485)">
+    <!-- Col 1 -->
+    <text class="mono" x="0" y="16" font-size="11" fill="#9BA097" letter-spacing="1">EDUCATION</text>
+    <text class="mono" x="0" y="40" font-size="15" font-weight="600" fill="#F2F0E8">B.E. CS · CGPA: 9.2/10</text>
+    <text class="mono" x="0" y="62" font-size="13" fill="#9BA097">DSCE Bengaluru (2028)</text>
+
+    <!-- Col 2 -->
+    <text class="mono" x="320" y="16" font-size="11" fill="#9BA097" letter-spacing="1">EXPERIENCE &amp; HONORS</text>
+    <text class="mono" x="320" y="40" font-size="15" font-weight="600" fill="#F2F0E8">ModelSuite.ai · GSSoC Top 1.1%</text>
+    <text class="mono" x="320" y="62" font-size="13" fill="#9BA097">Electrolithon 1st · AIvora Top 3</text>
+
+    <!-- Col 3 -->
+    <text class="mono" x="720" y="16" font-size="11" fill="#9BA097" letter-spacing="1">SELECTED WORK</text>
+    <text class="mono" x="720" y="40" font-size="15" font-weight="600" fill="#F2F0E8">Foundr · MergeMind · Awaz · Echoe</text>
+    <text class="mono" x="720" y="62" font-size="13" fill="#C74E36">personal-portfolio-0906.netlify.app ↗</text>
+  </g>
+</svg>

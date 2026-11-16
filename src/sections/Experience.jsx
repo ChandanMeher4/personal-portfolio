@@ -1,36 +1,72 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { experiences } from "../data/experience.js";
+import { EASING, DURATION } from "../utils/motion.js";
 
 const Experience = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
   return (
     <section
       id="experience"
+      ref={sectionRef}
       className="w-full py-24 sm:py-32 px-6 sm:px-8 lg:px-12 border-b border-[#D7D3C8] bg-[#F2F0E8] text-[#20221E]"
     >
       <div className="max-w-[1360px] mx-auto">
         {/* Section Header */}
         <div className="border-b border-[#D7D3C8] pb-6 mb-12 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+          >
             <span className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3">
               05 — Professional Track
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#20221E]">
               Experience & Contributions
             </h2>
-          </div>
-          <p className="max-w-md text-sm sm:text-base text-[#777970] leading-relaxed">
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: DURATION.entrance, delay: 0.1, ease: EASING }}
+            className="max-w-md text-sm sm:text-base text-[#777970] leading-relaxed"
+          >
             A chronological record of engineering internships, collaborative contributions, and
             open-source work with verifiable responsibilities.
-          </p>
+          </motion.p>
         </div>
 
-        {/* Editorial Timeline */}
-        <div className="relative border-l border-[#D7D3C8] ml-2 sm:ml-4 pl-6 sm:pl-10 space-y-12 sm:space-y-16">
-          {experiences.map((exp) => (
-            <div key={exp.organization} className="relative group">
-              {/* Timeline Red Marker */}
-              <span
-                className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-3 h-3 bg-[#F2F0E8] border-2 border-[#C74E36] rounded-none group-hover:bg-[#C74E36] transition-colors"
+        {/* Editorial Timeline with Progressive Vertical Line Reveal */}
+        <div className="relative ml-2 sm:ml-4 pl-6 sm:pl-10 space-y-12 sm:space-y-16">
+          {/* Animated Vertical Line */}
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+            transition={{ duration: 0.9, ease: EASING }}
+            className="absolute left-0 top-0 bottom-0 w-[1px] bg-[#D7D3C8] origin-top"
+          />
+
+          {experiences.map((exp, idx) => (
+            <motion.div
+              key={exp.organization}
+              initial={{ opacity: 0, y: 14 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              transition={{
+                duration: DURATION.entrance,
+                delay: 0.15 + idx * 0.1,
+                ease: EASING,
+              }}
+              className="relative group"
+            >
+              {/* Timeline Red Marker with Hover Reaction */}
+              <motion.span
+                whileHover={{ scale: 1.25 }}
+                transition={{ duration: DURATION.quick, ease: EASING }}
+                className="absolute -left-[31px] sm:-left-[47px] top-1.5 w-3 h-3 bg-[#F2F0E8] border-2 border-[#C74E36] rounded-none group-hover:bg-[#C74E36] transition-colors cursor-pointer"
                 aria-hidden="true"
               />
 
@@ -46,7 +82,7 @@ const Experience = () => {
 
                 {/* Content Column (Role, Description, Highlights, 8 Cols) */}
                 <div className="lg:col-span-8">
-                  <h3 className="text-xl font-bold text-[#20221E] mb-3">
+                  <h3 className="text-xl font-bold text-[#20221E] mb-3 group-hover:text-[#20221E] transition-colors">
                     {exp.role}
                   </h3>
 
@@ -64,7 +100,7 @@ const Experience = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

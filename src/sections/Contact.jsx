@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import { EASING, DURATION } from "../utils/motion.js";
 
 const Contact = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,13 +55,18 @@ const Contact = () => {
   return (
     <section
       id="contact"
+      ref={sectionRef}
       className="w-full py-24 sm:py-32 px-6 sm:px-8 lg:px-12 bg-[#272B25] text-[#F2F0E8] border-b border-[#3F453D]"
     >
       <div className="max-w-[1360px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Left Column (5 Cols): Invitation & Direct Routes */}
           <div className="lg:col-span-5 flex flex-col justify-between">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              transition={{ duration: DURATION.entrance, ease: EASING }}
+            >
               <span className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3">
                 06 / Initiate Contact
               </span>
@@ -69,66 +79,108 @@ const Contact = () => {
                 Open to software engineering internship opportunities, collaborations, and
                 conversations about building useful digital products.
               </p>
-            </div>
+            </motion.div>
 
             {/* Direct Contact Links */}
-            <div className="border-t border-[#3F453D] pt-8 space-y-4 font-mono text-xs">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{ duration: DURATION.entrance, delay: 0.15, ease: EASING }}
+              className="border-t border-[#3F453D] pt-8 space-y-4 font-mono text-xs"
+            >
               <div>
                 <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
                   Electronic Mail
                 </span>
-                <a
+                <motion.a
                   href="mailto:mchandan1204@gmail.com"
-                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors inline-flex items-center gap-1 group"
+                  whileHover="hover"
                 >
-                  mchandan1204@gmail.com ↗
-                </a>
+                  <span>mchandan1204@gmail.com</span>
+                  <motion.span
+                    variants={{ hover: { x: 3, y: -2 } }}
+                    transition={{ duration: DURATION.quick, ease: EASING }}
+                    className="inline-block"
+                  >
+                    ↗
+                  </motion.span>
+                </motion.a>
               </div>
 
               <div>
                 <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
                   Direct Line / WhatsApp
                 </span>
-                <a
+                <motion.a
                   href="tel:+919572826321"
-                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors inline-flex items-center gap-1 group"
+                  whileHover="hover"
                 >
-                  +91 9572826321 ↗
-                </a>
+                  <span>+91 9572826321</span>
+                  <motion.span
+                    variants={{ hover: { x: 3, y: -2 } }}
+                    transition={{ duration: DURATION.quick, ease: EASING }}
+                    className="inline-block"
+                  >
+                    ↗
+                  </motion.span>
+                </motion.a>
               </div>
 
               <div>
                 <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
                   GitHub Profile
                 </span>
-                <a
+                <motion.a
                   href="https://github.com/ChandanMeher4"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors inline-flex items-center gap-1 group"
+                  whileHover="hover"
                 >
-                  github.com/ChandanMeher4 ↗
-                </a>
+                  <span>github.com/ChandanMeher4</span>
+                  <motion.span
+                    variants={{ hover: { x: 3, y: -2 } }}
+                    transition={{ duration: DURATION.quick, ease: EASING }}
+                    className="inline-block"
+                  >
+                    ↗
+                  </motion.span>
+                </motion.a>
               </div>
 
               <div>
                 <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
                   LinkedIn Professional
                 </span>
-                <a
+                <motion.a
                   href="https://www.linkedin.com/in/chandan-meher-74ab1a2bb"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors inline-flex items-center gap-1 group"
+                  whileHover="hover"
                 >
-                  linkedin.com/in/chandan-meher ↗
-                </a>
+                  <span>linkedin.com/in/chandan-meher</span>
+                  <motion.span
+                    variants={{ hover: { x: 3, y: -2 } }}
+                    transition={{ duration: DURATION.quick, ease: EASING }}
+                    className="inline-block"
+                  >
+                    ↗
+                  </motion.span>
+                </motion.a>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Column (7 Cols): Minimal Editorial Form */}
-          <div className="lg:col-span-7 bg-[#1F221D] border border-[#3F453D] p-6 sm:p-10">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+            transition={{ duration: DURATION.entrance, delay: 0.1, ease: EASING }}
+            className="lg:col-span-7 bg-[#1F221D] border border-[#3F453D] p-6 sm:p-10"
+          >
             <div className="border-b border-[#3F453D] pb-4 mb-8 flex items-center justify-between font-mono text-xs">
               <span className="text-[#F2F0E8] font-semibold uppercase tracking-wider">
                 Direct Dispatch Form
@@ -137,7 +189,7 @@ const Contact = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field with Visible Top Label */}
+              {/* Name Field */}
               <div>
                 <label
                   htmlFor="contact-name"
@@ -157,7 +209,7 @@ const Contact = () => {
                 />
               </div>
 
-              {/* Email Field with Visible Top Label */}
+              {/* Email Field */}
               <div>
                 <label
                   htmlFor="contact-email"
@@ -177,7 +229,7 @@ const Contact = () => {
                 />
               </div>
 
-              {/* Message Field with Visible Top Label */}
+              {/* Message Field */}
               <div>
                 <div className="flex items-center justify-between mb-2 font-mono text-[11px]">
                   <label
@@ -201,22 +253,66 @@ const Contact = () => {
                 />
               </div>
 
-              {/* Submit Button & Status Announcement */}
+              {/* Submit Button & Status Announcement with State Transition */}
               <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <button
+                <motion.button
                   type="submit"
                   disabled={status === "sending"}
+                  whileHover={status === "idle" ? { scale: 1.01 } : {}}
+                  whileTap={status === "idle" ? { scale: 0.98 } : {}}
                   className={`px-8 py-3.5 font-medium text-sm rounded-none transition-colors flex items-center justify-center gap-2 ${
                     status === "success"
                       ? "bg-[#323730] text-[#F2F0E8] border border-[#C74E36]"
                       : "bg-[#C74E36] text-[#F2F0E8] hover:bg-[#B3412B]"
-                  } disabled:opacity-60 disabled:cursor-wait`}
+                  } disabled:opacity-60 disabled:cursor-wait cursor-pointer`}
                 >
-                  {status === "idle" && <span>Send message ↗</span>}
-                  {status === "sending" && <span>Sending...</span>}
-                  {status === "success" && <span>Message sent ✓</span>}
-                  {status === "error" && <span>Retry send ↗</span>}
-                </button>
+                  <AnimatePresence mode="wait">
+                    {status === "idle" && (
+                      <motion.span
+                        key="idle"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: DURATION.quick }}
+                      >
+                        Send message ↗
+                      </motion.span>
+                    )}
+                    {status === "sending" && (
+                      <motion.span
+                        key="sending"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: DURATION.quick }}
+                      >
+                        Sending...
+                      </motion.span>
+                    )}
+                    {status === "success" && (
+                      <motion.span
+                        key="success"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: DURATION.quick }}
+                      >
+                        Message sent ✓
+                      </motion.span>
+                    )}
+                    {status === "error" && (
+                      <motion.span
+                        key="error"
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: DURATION.quick }}
+                      >
+                        Retry send ↗
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
 
                 {/* Accessible Status Announcement Region */}
                 <div aria-live="polite" className="font-mono text-xs">
@@ -234,7 +330,7 @@ const Contact = () => {
                 </div>
               </div>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

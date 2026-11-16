@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useScroll, useMotionValueEvent, motion, AnimatePresence } from "framer-motion";
+import { useScroll, useMotionValueEvent, motion, AnimatePresence, useSpring } from "framer-motion";
 import { projects } from "../data/projects.js";
+import { EASING, DURATION } from "../utils/motion.js";
 
 const Projects = () => {
   const sceneRef = useRef(null);
@@ -24,6 +25,13 @@ const Projects = () => {
     offset: ["start start", "end end"],
   });
 
+  // Smooth spring for the scroll progress line
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    restDelta: 0.001,
+  });
+
   const thresholds = [0.25, 0.5, 0.75, 1.0];
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -34,7 +42,7 @@ const Projects = () => {
 
   const activeProject = projects[activeIndex];
 
-  // Keyboard navigation / direct jump
+  // Accessible Chapter Jump
   const scrollToChapter = (index) => {
     if (!sceneRef.current) return;
     const sceneTop = sceneRef.current.offsetTop;
@@ -67,25 +75,38 @@ const Projects = () => {
               <span>2026 Archive</span>
             </div>
 
-            {/* Accessible Chapter Selectors */}
-            <div className="flex items-center gap-3" role="tablist" aria-label="Project selector">
-              {projects.map((proj, idx) => (
-                <button
-                  key={proj.id}
-                  type="button"
-                  onClick={() => scrollToChapter(idx)}
-                  className={`px-2 py-0.5 text-xs transition-colors border ${
-                    activeIndex === idx
-                      ? "border-[#C74E36] text-[#F2F0E8] bg-[#C74E36]/10"
-                      : "border-transparent text-[#9BA097] hover:text-[#F2F0E8]"
-                  }`}
-                  role="tab"
-                  aria-selected={activeIndex === idx}
-                  aria-label={`Jump to project ${proj.index}: ${proj.title}`}
-                >
-                  {proj.index}
-                </button>
-              ))}
+            {/* Accessible Chapter Selectors with Animated Indicator */}
+            <div className="flex items-center gap-2" role="tablist" aria-label="Project selector">
+              {projects.map((proj, idx) => {
+                const isSelected = activeIndex === idx;
+                return (
+                  <button
+                    key={proj.id}
+                    type="button"
+                    onClick={() => scrollToChapter(idx)}
+                    className="relative px-2.5 py-1 text-xs font-mono transition-colors"
+                    role="tab"
+                    aria-selected={isSelected}
+                    aria-label={`Jump to project ${proj.index}: ${proj.title}`}
+                  >
+                    <span
+                      className={`relative z-10 transition-colors duration-200 ${
+                        isSelected ? "text-[#F2F0E8] font-bold" : "text-[#9BA097] hover:text-[#F2F0E8]"
+                      }`}
+                    >
+                      {proj.index}
+                    </span>
+                    {isSelected && (
+                      <motion.span
+                        layoutId="activeChapterPill"
+                        className="absolute inset-0 border border-[#C74E36] bg-[#C74E36]/15"
+                        transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </button>
+                );
+              })}
               <span className="text-[#3F453D] ml-1">/</span>
               <span className="text-[#9BA097]">04</span>
             </div>
@@ -93,82 +114,130 @@ const Projects = () => {
 
           {/* Main Stage Grid: 36% Info Column / 64% Visual Column */}
           <div className="grid grid-cols-12 gap-10 lg:gap-14 my-auto items-center">
-            {/* Left Column (36% -> 4 to 5 cols) */}
+            {/* Left Column (36% -> 5 cols) */}
             <div className="col-span-5 flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeProject.id}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: DURATION.project, ease: EASING }}
                 >
-                  <span className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3">
+                  {/* Category Label */}
+                  <motion.span
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.04, ease: EASING }}
+                    className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3"
+                  >
                     {activeProject.category}
-                  </span>
+                  </motion.span>
 
-                  <h3 className="text-4xl lg:text-5xl font-bold tracking-tight text-[#F2F0E8] mb-4">
+                  {/* Title */}
+                  <motion.h3
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.08, ease: EASING }}
+                    className="text-4xl lg:text-5xl font-bold tracking-tight text-[#F2F0E8] mb-4"
+                  >
                     {activeProject.title}
-                  </h3>
+                  </motion.h3>
 
-                  <p className="text-base text-[#9BA097] leading-relaxed mb-6">
+                  {/* Description */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.12, ease: EASING }}
+                    className="text-base text-[#9BA097] leading-relaxed mb-6"
+                  >
                     {activeProject.description}
-                  </p>
+                  </motion.p>
 
-                  {/* Technology Stack List */}
+                  {/* Staggered Technology Stack List */}
                   <div className="border-t border-b border-[#3F453D] py-3.5 mb-8">
                     <span className="block font-mono text-[10px] uppercase text-[#9BA097] mb-2">
                       Technologies
                     </span>
                     <div className="flex flex-wrap gap-2 text-xs font-mono text-[#F2F0E8]">
                       {activeProject.tech.map((t, i) => (
-                        <span key={t} className="flex items-center gap-1.5">
+                        <motion.span
+                          key={t}
+                          initial={{ opacity: 0, x: -4 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{
+                            duration: DURATION.quick,
+                            delay: 0.16 + i * 0.03,
+                            ease: EASING,
+                          }}
+                          className="flex items-center gap-1.5"
+                        >
                           {i > 0 && <span className="text-[#3F453D]">·</span>}
                           <span>{t}</span>
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
 
-                  {/* Action Links */}
-                  <div className="flex items-center gap-5 text-sm font-medium">
-                    <Link
-                      to={`/work/${activeProject.id}`}
-                      className="inline-flex items-center gap-1.5 text-[#C74E36] hover:text-[#F2F0E8] transition-colors group underline underline-offset-4"
-                    >
-                      <span>Case study</span>
-                      <span className="font-mono text-xs">↗</span>
-                    </Link>
+                  {/* Action Links with Arrow Micro-Interactions */}
+                  <div className="flex items-center gap-6 text-sm font-medium">
+                    <motion.div whileHover="hover">
+                      <Link
+                        to={`/work/${activeProject.id}`}
+                        className="inline-flex items-center gap-1.5 text-[#C74E36] hover:text-[#F2F0E8] transition-colors underline underline-offset-4 group"
+                      >
+                        <span>Case study</span>
+                        <motion.span
+                          variants={{ hover: { x: 3, y: -2 } }}
+                          transition={{ duration: DURATION.quick, ease: EASING }}
+                          className="font-mono text-xs inline-block"
+                        >
+                          ↗
+                        </motion.span>
+                      </Link>
+                    </motion.div>
 
-                    <a
-                      href={activeProject.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[#F2F0E8] hover:text-[#C74E36] transition-colors group underline underline-offset-4"
-                    >
-                      <span>Live demo</span>
-                      <span className="font-mono text-xs text-[#9BA097] group-hover:text-[#C74E36]">
-                        ↗
-                      </span>
-                    </a>
+                    <motion.div whileHover="hover">
+                      <a
+                        href={activeProject.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[#F2F0E8] hover:text-[#C74E36] transition-colors underline underline-offset-4 group"
+                      >
+                        <span>Live demo</span>
+                        <motion.span
+                          variants={{ hover: { x: 3, y: -2 } }}
+                          transition={{ duration: DURATION.quick, ease: EASING }}
+                          className="font-mono text-xs text-[#9BA097] group-hover:text-[#C74E36] inline-block"
+                        >
+                          ↗
+                        </motion.span>
+                      </a>
+                    </motion.div>
 
-                    <a
-                      href={activeProject.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[#9BA097] hover:text-[#F2F0E8] transition-colors group underline underline-offset-4"
-                    >
-                      <span>GitHub</span>
-                      <span className="font-mono text-xs text-[#9BA097] group-hover:text-[#F2F0E8]">
-                        ↗
-                      </span>
-                    </a>
+                    <motion.div whileHover="hover">
+                      <a
+                        href={activeProject.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[#9BA097] hover:text-[#F2F0E8] transition-colors underline underline-offset-4 group"
+                      >
+                        <span>GitHub</span>
+                        <motion.span
+                          variants={{ hover: { x: 3, y: -2 } }}
+                          transition={{ duration: DURATION.quick, ease: EASING }}
+                          className="font-mono text-xs text-[#9BA097] group-hover:text-[#F2F0E8] inline-block"
+                        >
+                          ↗
+                        </motion.span>
+                      </a>
+                    </motion.div>
                   </div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
-            {/* Right Column (64% -> 7 cols) */}
+            {/* Right Column: Signature Controlled Crop & Scale Visual (64% -> 7 cols) */}
             <div className="col-span-7 flex flex-col items-center">
               <div className="w-full bg-[#1F221D] border border-[#3F453D] p-3 sm:p-4">
                 <div className="relative aspect-[16/10] overflow-hidden bg-[#272B25] border border-[#3F453D]">
@@ -177,10 +246,10 @@ const Projects = () => {
                       key={activeProject.id}
                       src={activeProject.desktopImage}
                       alt={activeProject.title}
-                      initial={{ opacity: 0, scale: 1.02 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      initial={{ opacity: 0, scale: 1.025, x: 6 }}
+                      animate={{ opacity: 1, scale: 1, x: 0 }}
+                      exit={{ opacity: 0, scale: 0.99, x: -6 }}
+                      transition={{ duration: DURATION.project, ease: EASING }}
                       className="w-full h-full object-cover object-top"
                     />
                   </AnimatePresence>
@@ -199,12 +268,17 @@ const Projects = () => {
           <div className="border-t border-[#3F453D] pt-4 flex items-center justify-between font-mono text-xs text-[#9BA097]">
             <div className="flex items-center gap-2">
               <span>Scroll to navigate projects</span>
-              <span className="animate-bounce">↓</span>
+              <motion.span
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              >
+                ↓
+              </motion.span>
             </div>
             <div className="w-48 h-1 bg-[#3F453D] relative overflow-hidden">
               <motion.div
                 className="h-full bg-[#C74E36]"
-                style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
+                style={{ scaleX: smoothProgress, transformOrigin: "left" }}
               />
             </div>
           </div>

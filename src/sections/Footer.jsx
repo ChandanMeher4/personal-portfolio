@@ -1,4 +1,6 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { EASING, DURATION } from "../utils/motion.js";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -6,6 +8,15 @@ const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const navLinks = [
+    { label: "Index", href: "#hero" },
+    { label: "Work", href: "#work" },
+    { label: "Capabilities", href: "#capabilities" },
+    { label: "About", href: "#about" },
+    { label: "Experience", href: "#experience" },
+    { label: "Contact", href: "#contact" },
+  ];
 
   return (
     <footer
@@ -24,26 +35,18 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Center/Right: Navigation Anchors */}
+          {/* Center/Right: Navigation Anchors with Underline Growth */}
           <nav className="flex flex-wrap items-center gap-6 font-mono text-xs text-[#777970]">
-            <a href="#hero" className="hover:text-[#20221E] transition-colors">
-              Index
-            </a>
-            <a href="#work" className="hover:text-[#20221E] transition-colors">
-              Work
-            </a>
-            <a href="#capabilities" className="hover:text-[#20221E] transition-colors">
-              Capabilities
-            </a>
-            <a href="#about" className="hover:text-[#20221E] transition-colors">
-              About
-            </a>
-            <a href="#experience" className="hover:text-[#20221E] transition-colors">
-              Experience
-            </a>
-            <a href="#contact" className="hover:text-[#20221E] transition-colors">
-              Contact
-            </a>
+            {navLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="relative py-1 hover:text-[#20221E] transition-colors group"
+              >
+                <span>{item.label}</span>
+                <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C74E36] group-hover:w-full transition-all duration-200 ease-out" />
+              </a>
+            ))}
           </nav>
         </div>
 
@@ -77,15 +80,24 @@ const Footer = () => {
               Email
             </a>
             <span className="text-[#D7D3C8]">|</span>
-            <button
+            <motion.button
               type="button"
               onClick={scrollToTop}
               className="text-[#20221E] hover:text-[#C74E36] transition-colors font-medium flex items-center gap-1 cursor-pointer"
               aria-label="Scroll back to top of page"
+              whileHover="hover"
             >
               <span>Back to top</span>
-              <span>↑</span>
-            </button>
+              <motion.span
+                variants={{
+                  hover: { y: -3 },
+                }}
+                transition={{ duration: DURATION.quick, ease: EASING }}
+                className="inline-block"
+              >
+                ↑
+              </motion.span>
+            </motion.button>
           </div>
         </div>
       </div>

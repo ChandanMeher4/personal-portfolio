@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { projects } from "../data/projects.js";
+import { EASING, DURATION } from "../utils/motion.js";
 
 const ProjectCaseStudy = () => {
   const { id } = useParams();
@@ -65,26 +67,41 @@ const ProjectCaseStudy = () => {
       {/* Main Case Study Content */}
       <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 sm:px-8 lg:px-12 py-16 sm:py-24">
         {/* Breadcrumb & Identifier */}
-        <div className="flex items-center gap-2 font-mono text-xs text-[#777970] uppercase tracking-wider mb-6 pb-4 border-b border-[#D7D3C8]">
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: DURATION.standard, ease: EASING }}
+          className="flex items-center gap-2 font-mono text-xs text-[#777970] uppercase tracking-wider mb-6 pb-4 border-b border-[#D7D3C8]"
+        >
           <span>Project Archive</span>
           <span>/</span>
           <span className="text-[#C74E36]">Chapter {project.index}</span>
           <span>/</span>
           <span className="text-[#20221E]">{project.title.replace(".", "")}</span>
-        </div>
+        </motion.div>
 
         {/* Title & Tagline */}
-        <div className="mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: DURATION.entrance, delay: 0.08, ease: EASING }}
+          className="mb-12"
+        >
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#20221E] leading-[1.05] mb-4">
             {project.title}
           </h1>
           <p className="font-editorial text-2xl sm:text-3xl text-[#777970] italic leading-snug">
             {project.tagline}
           </p>
-        </div>
+        </motion.div>
 
         {/* Metadata Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-6 border-t border-b border-[#D7D3C8] mb-12 font-mono text-xs">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: DURATION.entrance, delay: 0.16, ease: EASING }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-6 py-6 border-t border-b border-[#D7D3C8] mb-12 font-mono text-xs"
+        >
           <div>
             <span className="block text-[10px] text-[#777970] uppercase tracking-wider mb-1">
               Category
@@ -128,14 +145,22 @@ const ProjectCaseStudy = () => {
               <span>↗</span>
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Hero Visual */}
-        <div className="bg-[#E9E6DC] border border-[#D7D3C8] p-4 sm:p-6 mb-16">
+        {/* Hero Visual with Controlled Crop Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASING }}
+          className="bg-[#E9E6DC] border border-[#D7D3C8] p-4 sm:p-6 mb-16"
+        >
           <div className="relative aspect-[16/10] overflow-hidden bg-[#272B25] border border-[#D7D3C8]">
-            <img
+            <motion.img
               src={project.desktopImage}
               alt={project.title}
+              initial={{ scale: 1.03 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.25, ease: EASING }}
               className="w-full h-full object-cover object-top"
             />
           </div>
@@ -143,80 +168,124 @@ const ProjectCaseStudy = () => {
             <span>FIG. 01 — FULL APPLICATION SCREENSHOT</span>
             <span>{project.title.toUpperCase()}</span>
           </div>
-        </div>
+        </motion.div>
 
-        {/* 6 Structured Engineering Chapters */}
+        {/* 6 Structured Engineering Chapters with In-View Reveals */}
         <div className="space-y-12 sm:space-y-16">
           {/* 01: The Problem */}
-          <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8">
+          <motion.section
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8"
+          >
             <div className="md:col-span-4 font-mono text-xs text-[#C74E36] uppercase tracking-wider">
               01 — The Problem
             </div>
             <div className="md:col-span-8 text-base sm:text-lg text-[#20221E] leading-relaxed">
               <p>{caseStudy.problem}</p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 02: Constraints */}
-          <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8">
+          <motion.section
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8"
+          >
             <div className="md:col-span-4 font-mono text-xs text-[#C74E36] uppercase tracking-wider">
               02 — Constraints & Scope
             </div>
             <div className="md:col-span-8 text-base sm:text-lg text-[#20221E] leading-relaxed">
               <p>{caseStudy.constraints}</p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 03: Architecture */}
-          <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8">
+          <motion.section
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8"
+          >
             <div className="md:col-span-4 font-mono text-xs text-[#C74E36] uppercase tracking-wider">
               03 — System Architecture
             </div>
             <div className="md:col-span-8 text-base sm:text-lg text-[#20221E] leading-relaxed">
               <p>{caseStudy.architecture}</p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 04: Implementation */}
-          <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8">
+          <motion.section
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8"
+          >
             <div className="md:col-span-4 font-mono text-xs text-[#C74E36] uppercase tracking-wider">
               04 — Implementation Details
             </div>
             <div className="md:col-span-8 text-base sm:text-lg text-[#20221E] leading-relaxed">
               <p>{caseStudy.implementation}</p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 05: Engineering Decisions */}
-          <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8">
+          <motion.section
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8"
+          >
             <div className="md:col-span-4 font-mono text-xs text-[#C74E36] uppercase tracking-wider">
               05 — Decisions & Trade-offs
             </div>
             <div className="md:col-span-8 text-base sm:text-lg text-[#20221E] leading-relaxed">
               <p>{caseStudy.decisions}</p>
             </div>
-          </section>
+          </motion.section>
 
           {/* 06: Outcome */}
-          <section className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8">
+          <motion.section
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-10 border-t border-[#D7D3C8] pt-8"
+          >
             <div className="md:col-span-4 font-mono text-xs text-[#C74E36] uppercase tracking-wider">
               06 — Outcome & Lessons
             </div>
             <div className="md:col-span-8 text-base sm:text-lg text-[#20221E] leading-relaxed">
               <p>{caseStudy.outcome}</p>
             </div>
-          </section>
+          </motion.section>
         </div>
 
-        {/* Project Pagination */}
+        {/* Project Pagination with Micro-Interactions */}
         <div className="mt-20 pt-8 border-t-2 border-[#20221E] flex items-center justify-between font-mono text-xs">
-          <button
+          <motion.button
             type="button"
             onClick={() => navigate(`/work/${prevProject.id}`)}
-            className="flex items-center gap-2 text-[#777970] hover:text-[#C74E36] transition-colors"
+            whileHover="hover"
+            className="flex items-center gap-2 text-[#777970] hover:text-[#C74E36] transition-colors cursor-pointer group"
           >
-            <span>← Previous: {prevProject.title.replace(".", "")}</span>
-          </button>
+            <motion.span
+              variants={{ hover: { x: -3 } }}
+              transition={{ duration: DURATION.quick, ease: EASING }}
+              className="inline-block"
+            >
+              ←
+            </motion.span>
+            <span>Previous: {prevProject.title.replace(".", "")}</span>
+          </motion.button>
 
           <Link
             to="/#work"
@@ -225,13 +294,21 @@ const ProjectCaseStudy = () => {
             Index Archive
           </Link>
 
-          <button
+          <motion.button
             type="button"
             onClick={() => navigate(`/work/${nextProject.id}`)}
-            className="flex items-center gap-2 text-[#777970] hover:text-[#C74E36] transition-colors"
+            whileHover="hover"
+            className="flex items-center gap-2 text-[#777970] hover:text-[#C74E36] transition-colors cursor-pointer group"
           >
-            <span>Next: {nextProject.title.replace(".", "")} →</span>
-          </button>
+            <span>Next: {nextProject.title.replace(".", "")}</span>
+            <motion.span
+              variants={{ hover: { x: 3 } }}
+              transition={{ duration: DURATION.quick, ease: EASING }}
+              className="inline-block"
+            >
+              →
+            </motion.span>
+          </motion.button>
         </div>
       </main>
 

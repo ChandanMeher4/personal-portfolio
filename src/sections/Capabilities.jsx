@@ -1,43 +1,66 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { capabilities, foundations, certifications } from "../data/capabilities.js";
+import { EASING, DURATION } from "../utils/motion.js";
 
 const Capabilities = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
+
   return (
     <section
       id="capabilities"
+      ref={sectionRef}
       className="w-full py-24 sm:py-32 px-6 sm:px-8 lg:px-12 border-b border-[#D7D3C8] bg-[#F2F0E8] text-[#20221E]"
     >
       <div className="max-w-[1360px] mx-auto">
         {/* Section Header */}
         <div className="border-b border-[#D7D3C8] pb-6 mb-12 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: DURATION.entrance, ease: EASING }}
+          >
             <span className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3">
               03 / Technical Capabilities
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#20221E]">
               The tools are only part of the process.
             </h2>
-          </div>
-          <p className="max-w-md text-sm sm:text-base text-[#777970] leading-relaxed">
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: DURATION.entrance, delay: 0.1, ease: EASING }}
+            className="max-w-md text-sm sm:text-base text-[#777970] leading-relaxed"
+          >
             Technologies organised by engineering domain, paired with practical project evidence
             rather than arbitrary proficiency scores.
-          </p>
+          </motion.p>
         </div>
 
         {/* 4 Structured Capability Groups (Horizontal Rows) */}
         <div className="divide-y divide-[#D7D3C8] border-t border-b border-[#D7D3C8]">
-          {capabilities.map((cap) => (
-            <div
+          {capabilities.map((cap, idx) => (
+            <motion.div
               key={cap.index}
-              className="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 hover:bg-[#E9E6DC]/40 transition-colors px-2 sm:px-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+              transition={{
+                duration: DURATION.entrance,
+                delay: 0.15 + idx * 0.08,
+                ease: EASING,
+              }}
+              className="py-8 sm:py-10 grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 hover:bg-[#E9E6DC]/40 transition-colors px-2 sm:px-4 group cursor-default"
             >
               {/* Index & Category Title (4 cols) */}
               <div className="md:col-span-4 flex items-start gap-4">
-                <span className="font-mono text-xs text-[#C74E36] pt-1">
+                <span className="font-mono text-xs text-[#777970] group-hover:text-[#C74E36] transition-colors pt-1 font-semibold">
                   {cap.index}
                 </span>
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#20221E]">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#20221E] group-hover:text-[#20221E] transition-colors">
                     {cap.title}
                   </h3>
                   <p className="mt-2 text-sm text-[#777970] leading-relaxed">
@@ -52,9 +75,9 @@ const Capabilities = () => {
                   Technology Stack
                 </span>
                 <div className="flex flex-wrap gap-x-2 gap-y-1.5 text-xs sm:text-sm font-mono text-[#20221E]">
-                  {cap.stack.map((item, idx) => (
+                  {cap.stack.map((item, i) => (
                     <span key={item} className="flex items-center gap-2">
-                      {idx > 0 && <span className="text-[#D7D3C8]">/</span>}
+                      {i > 0 && <span className="text-[#D7D3C8]">/</span>}
                       <span>{item}</span>
                     </span>
                   ))}
@@ -70,12 +93,17 @@ const Capabilities = () => {
                   {cap.evidence}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Foundations & Certifications Row */}
-        <div className="mt-12 sm:mt-16 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          transition={{ duration: DURATION.entrance, delay: 0.5, ease: EASING }}
+          className="mt-12 sm:mt-16 space-y-6"
+        >
           <div className="bg-[#E9E6DC] border border-[#D7D3C8] p-6 sm:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
@@ -119,7 +147,7 @@ const Capabilities = () => {
               ISSUED BY META · 2026
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

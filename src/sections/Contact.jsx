@@ -1,21 +1,15 @@
-import React, { useState, useRef } from "react";
-import emailjs from "emailjs-com";
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import { FaPaperPlane, FaCheck, FaGithub, FaLinkedin } from "react-icons/fa";
-import { CgSpinner } from "react-icons/cg";
-import { HiOutlineMail } from "react-icons/hi";
+import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 
-function Contact() {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const [formState, setFormState] = useState("idle");
+  const [status, setStatus] = useState("idle"); // 'idle' | 'sending' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState("");
 
   const SERVICE_ID = "service_j9199we";
   const TEMPLATE_ID = "template_sjyqa69";
@@ -26,264 +20,225 @@ function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormState("sending");
+    setStatus("sending");
+    setErrorMessage("");
 
-    emailjs
-      .sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
-      .then(() => {
-        setFormState("sent");
-        setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setFormState("idle"), 4000);
-      })
-      .catch((error) => {
-        console.error("EmailJS Error:", error);
-        setFormState("idle");
-        alert("Failed to send the message, please try again.");
-      });
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          reply_to: formData.email,
+          message: formData.message,
+        },
+        PUBLIC_KEY
+      );
+
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setStatus("idle"), 5000);
+    } catch (err) {
+      console.error("EmailJS Error:", err);
+      setStatus("error");
+      setErrorMessage("Message delivery failed. Please email directly at mchandan1204@gmail.com.");
+    }
   };
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
-  const contactLinks = [
-    {
-      icon: HiOutlineMail,
-      label: "Email",
-      value: "mchandan1204@gmail.com",
-      href: "mailto:mchandan1204@gmail.com",
-    },
-    {
-      icon: FaGithub,
-      label: "GitHub",
-      value: "ChandanMeher4",
-      href: "https://github.com/ChandanMeher4",
-    },
-    {
-      icon: FaLinkedin,
-      label: "LinkedIn",
-      value: "Chandan Meher",
-      href: "https://www.linkedin.com/in/chandan-meher-74ab1a2bb",
-    },
-  ];
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
-      className="min-h-screen w-full flex items-center justify-center relative text-white overflow-hidden bg-black py-24"
+      className="w-full py-24 sm:py-32 px-6 sm:px-8 lg:px-12 bg-[#272B25] text-[#F2F0E8] border-b border-[#3F453D]"
     >
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/8 to-blue-600/5 blur-[150px]" />
-        <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-purple-600/5 to-cyan-500/8 blur-[150px]" />
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-      </div>
+      <div className="max-w-[1360px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column (5 Cols): Invitation & Direct Routes */}
+          <div className="lg:col-span-5 flex flex-col justify-between">
+            <div>
+              <span className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3">
+                06 / Initiate Contact
+              </span>
 
-      <motion.div
-        className="px-4 sm:px-6 w-full max-w-6xl mx-auto relative z-10"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        {/* Section header */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <span className="text-xs font-mono text-cyan-400 uppercase tracking-[0.3em] mb-4 block">
-            Let's connect
-          </span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            <span className="text-gradient">Get In Touch</span>
-          </h2>
-          <p className="mt-4 text-base text-gray-500 max-w-lg mx-auto">
-            Have a project in mind or just want to chat? I'd love to hear from you.
-          </p>
-          <motion.div
-            className="mt-4 h-[2px] w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-blue-600"
-            initial={{ width: 0 }}
-            animate={isInView ? { width: 64 } : { width: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          />
-        </motion.div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#F2F0E8] leading-[1.1] mb-6">
+                Have something interesting to build?
+              </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
-          {/* Left: Contact info */}
-          <motion.div
-            className="lg:col-span-2 flex flex-col justify-center"
-            variants={containerVariants}
-          >
-            <motion.div variants={itemVariants}>
-              <h3 className="text-2xl sm:text-3xl font-bold mb-4">
-                Let's work<br />
-                <span className="text-gradient">together.</span>
-              </h3>
-              <p className="text-gray-500 text-sm leading-relaxed mb-8">
-                I'm always open to discussing new projects, creative ideas, or opportunities to be part of something amazing.
+              <p className="text-base text-[#9BA097] leading-relaxed mb-10 max-w-md">
+                Open to software engineering internship opportunities, collaborations, and
+                conversations about building useful digital products.
               </p>
-            </motion.div>
-
-            {/* Contact links */}
-            <div className="space-y-4">
-              {contactLinks.map(({ icon: Icon, label, value, href }, i) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target={href.startsWith("mailto") ? undefined : "_blank"}
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl glass hover:bg-white/[0.06] transition-all duration-300 group"
-                  variants={itemVariants}
-                  whileHover={{ x: 4 }}
-                >
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="text-lg" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider">{label}</div>
-                    <div className="text-sm text-gray-300 group-hover:text-white transition-colors">{value}</div>
-                  </div>
-                </motion.a>
-              ))}
             </div>
-          </motion.div>
 
-          {/* Right: Form */}
-          <motion.div className="lg:col-span-3" variants={itemVariants}>
-            <motion.form
-              className="glass-strong rounded-2xl p-6 sm:p-8 space-y-5"
-              onSubmit={handleSubmit}
-            >
-              <input type="hidden" name="form-name" value="contact" />
+            {/* Direct Contact Links */}
+            <div className="border-t border-[#3F453D] pt-8 space-y-4 font-mono text-xs">
+              <div>
+                <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
+                  Electronic Mail
+                </span>
+                <a
+                  href="mailto:mchandan1204@gmail.com"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                >
+                  mchandan1204@gmail.com ↗
+                </a>
+              </div>
 
-              {/* Name field */}
-              <div className="relative">
+              <div>
+                <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
+                  Direct Line / WhatsApp
+                </span>
+                <a
+                  href="tel:+919572826321"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                >
+                  +91 9572826321 ↗
+                </a>
+              </div>
+
+              <div>
+                <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
+                  GitHub Profile
+                </span>
+                <a
+                  href="https://github.com/ChandanMeher4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                >
+                  github.com/ChandanMeher4 ↗
+                </a>
+              </div>
+
+              <div>
+                <span className="text-[#9BA097] block uppercase text-[10px] tracking-wider mb-1">
+                  LinkedIn Professional
+                </span>
+                <a
+                  href="https://www.linkedin.com/in/chandan-meher-74ab1a2bb"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F2F0E8] hover:text-[#C74E36] underline text-sm transition-colors"
+                >
+                  linkedin.com/in/chandan-meher ↗
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column (7 Cols): Minimal Editorial Form */}
+          <div className="lg:col-span-7 bg-[#1F221D] border border-[#3F453D] p-6 sm:p-10">
+            <div className="border-b border-[#3F453D] pb-4 mb-8 flex items-center justify-between font-mono text-xs">
+              <span className="text-[#F2F0E8] font-semibold uppercase tracking-wider">
+                Direct Dispatch Form
+              </span>
+              <span className="text-[#9BA097]">DIRECT EMAILJS GATEWAY</span>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Name Field with Visible Top Label */}
+              <div>
+                <label
+                  htmlFor="contact-name"
+                  className="block font-mono text-[11px] uppercase tracking-wider text-[#9BA097] mb-2"
+                >
+                  Your Name <span className="text-[#C74E36]">*</span>
+                </label>
                 <input
+                  id="contact-name"
                   type="text"
-                  id="name"
                   name="name"
                   required
                   value={formData.name}
-                  className="peer w-full p-4 pt-7 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white placeholder-transparent focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.05] transition-all duration-300 text-sm"
-                  placeholder="Name"
                   onChange={handleChange}
+                  placeholder="e.g. Jane Doe"
+                  className="w-full bg-[#272B25] border border-[#3F453D] px-4 py-3 text-sm text-[#F2F0E8] placeholder-[#9BA097]/40 focus:border-[#C74E36] focus:outline-none rounded-none transition-colors"
                 />
-                <label
-                  htmlFor="name"
-                  className="absolute left-4 top-2 text-[10px] font-mono text-gray-500 uppercase tracking-wider transition-all duration-300 peer-placeholder-shown:top-5 peer-placeholder-shown:text-sm peer-placeholder-shown:normal-case peer-placeholder-shown:font-sans peer-placeholder-shown:tracking-normal peer-focus:top-2 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-cyan-400 peer-focus:font-mono"
-                >
-                  Your Name
-                </label>
               </div>
 
-              {/* Email field */}
-              <div className="relative">
+              {/* Email Field with Visible Top Label */}
+              <div>
+                <label
+                  htmlFor="contact-email"
+                  className="block font-mono text-[11px] uppercase tracking-wider text-[#9BA097] mb-2"
+                >
+                  Email Address <span className="text-[#C74E36]">*</span>
+                </label>
                 <input
+                  id="contact-email"
                   type="email"
-                  id="email"
                   name="email"
                   required
                   value={formData.email}
-                  className="peer w-full p-4 pt-7 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white placeholder-transparent focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.05] transition-all duration-300 text-sm"
-                  placeholder="Email"
                   onChange={handleChange}
+                  placeholder="e.g. jane@company.com"
+                  className="w-full bg-[#272B25] border border-[#3F453D] px-4 py-3 text-sm text-[#F2F0E8] placeholder-[#9BA097]/40 focus:border-[#C74E36] focus:outline-none rounded-none transition-colors"
                 />
-                <label
-                  htmlFor="email"
-                  className="absolute left-4 top-2 text-[10px] font-mono text-gray-500 uppercase tracking-wider transition-all duration-300 peer-placeholder-shown:top-5 peer-placeholder-shown:text-sm peer-placeholder-shown:normal-case peer-placeholder-shown:font-sans peer-placeholder-shown:tracking-normal peer-focus:top-2 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-cyan-400 peer-focus:font-mono"
-                >
-                  Your Email
-                </label>
               </div>
 
-              {/* Message field */}
-              <div className="relative">
+              {/* Message Field with Visible Top Label */}
+              <div>
+                <div className="flex items-center justify-between mb-2 font-mono text-[11px]">
+                  <label
+                    htmlFor="contact-message"
+                    className="block uppercase tracking-wider text-[#9BA097]"
+                  >
+                    Message / Inquiry <span className="text-[#C74E36]">*</span>
+                  </label>
+                  <span className="text-[#9BA097]/60">{formData.message.length}/500</span>
+                </div>
                 <textarea
-                  id="message"
+                  id="contact-message"
                   name="message"
                   required
-                  value={formData.message}
                   rows={5}
                   maxLength={500}
-                  className="peer w-full p-4 pt-7 rounded-xl bg-white/[0.03] border border-white/[0.06] text-white placeholder-transparent focus:outline-none focus:border-cyan-500/50 focus:bg-white/[0.05] transition-all duration-300 resize-none text-sm"
-                  placeholder="Message"
+                  value={formData.message}
                   onChange={handleChange}
+                  placeholder="What would you like to discuss?"
+                  className="w-full bg-[#272B25] border border-[#3F453D] px-4 py-3 text-sm text-[#F2F0E8] placeholder-[#9BA097]/40 focus:border-[#C74E36] focus:outline-none rounded-none transition-colors resize-none"
                 />
-                <label
-                  htmlFor="message"
-                  className="absolute left-4 top-2 text-[10px] font-mono text-gray-500 uppercase tracking-wider transition-all duration-300 peer-placeholder-shown:top-5 peer-placeholder-shown:text-sm peer-placeholder-shown:normal-case peer-placeholder-shown:font-sans peer-placeholder-shown:tracking-normal peer-focus:top-2 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-wider peer-focus:text-cyan-400 peer-focus:font-mono"
-                >
-                  Your Message
-                </label>
-                {/* Character counter */}
-                <div className="absolute bottom-3 right-4 text-[10px] font-mono text-gray-600">
-                  {formData.message.length}/500
-                </div>
               </div>
 
-              {/* Submit button */}
-              <motion.button
-                type="submit"
-                disabled={formState === "sending"}
-                className={`
-                  w-full inline-flex items-center justify-center 
-                  px-7 py-4 rounded-xl font-semibold text-sm
-                  transition-all duration-300
-                  ${formState === "sent"
-                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                    : "bg-gradient-to-r from-[#00C6FF] to-[#0072FF] text-white shadow-lg shadow-cyan-500/20"
-                  }
-                  ${formState === "sending" ? "cursor-wait opacity-80" : ""}
-                `}
-                whileHover={formState === "idle" ? { scale: 1.02, y: -2, boxShadow: "0 20px 40px rgba(0, 198, 255, 0.25)" } : {}}
-                whileTap={formState === "idle" ? { scale: 0.98 } : {}}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={formState}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center gap-2"
-                  >
-                    {formState === "sending" && (
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      >
-                        <CgSpinner />
-                      </motion.div>
-                    )}
-                    {formState === "sent" && <FaCheck />}
-                    {formState === "idle" && <FaPaperPlane />}
+              {/* Submit Button & Status Announcement */}
+              <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <button
+                  type="submit"
+                  disabled={status === "sending"}
+                  className={`px-8 py-3.5 font-medium text-sm rounded-none transition-colors flex items-center justify-center gap-2 ${
+                    status === "success"
+                      ? "bg-[#323730] text-[#F2F0E8] border border-[#C74E36]"
+                      : "bg-[#C74E36] text-[#F2F0E8] hover:bg-[#B3412B]"
+                  } disabled:opacity-60 disabled:cursor-wait`}
+                >
+                  {status === "idle" && <span>Send message ↗</span>}
+                  {status === "sending" && <span>Sending...</span>}
+                  {status === "success" && <span>Message sent ✓</span>}
+                  {status === "error" && <span>Retry send ↗</span>}
+                </button>
 
-                    {formState === "idle"
-                      ? "Send Message"
-                      : formState === "sending"
-                      ? "Sending..."
-                      : "Message Sent!"}
-                  </motion.span>
-                </AnimatePresence>
-              </motion.button>
-            </motion.form>
-          </motion.div>
+                {/* Accessible Status Announcement Region */}
+                <div aria-live="polite" className="font-mono text-xs">
+                  {status === "success" && (
+                    <span className="text-[#F2F0E8]">
+                      Thank you. Your message has been dispatched.
+                    </span>
+                  )}
+                  {status === "error" && (
+                    <span className="text-[#C74E36]">{errorMessage}</span>
+                  )}
+                  {status === "idle" && (
+                    <span className="text-[#9BA097]">I usually respond within 24 hours.</span>
+                  )}
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
-}
+};
 
 export default Contact;

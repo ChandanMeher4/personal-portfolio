@@ -1,185 +1,137 @@
-import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React from "react";
 import profilePic from "../assets/profile-pic.jpeg";
 
 const About = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-
-  const stats = [
-    { label: "Projects Built", value: "4+", icon: "🚀" },
-    { label: "Technologies", value: "10+", icon: "⚡" },
-    { label: "Focus Area", value: "Frontend", icon: "🎨" },
-  ];
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
   return (
     <section
       id="about"
-      ref={sectionRef}
-      className="min-h-screen w-full flex items-center justify-center relative text-white overflow-hidden bg-black py-24"
+      className="w-full py-24 sm:py-32 px-6 sm:px-8 lg:px-12 border-b border-[#D7D3C8] bg-[#F2F0E8] text-[#20221E]"
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-20 -left-20 w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/8 to-blue-600/5 blur-[150px]" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-r from-purple-600/5 to-cyan-500/8 blur-[150px]" />
-        <div className="absolute inset-0 dot-grid opacity-50" />
-      </div>
+      <div className="max-w-[1360px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left Column (58% -> 7 Cols): Narrative Editorial Bio */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            <span className="font-mono text-xs text-[#C74E36] uppercase tracking-wider block mb-3">
+              04 / Background & Perspective
+            </span>
 
-      <motion.div
-        className="relative z-10 max-w-6xl w-full mx-auto px-6 md:px-10 lg:px-12"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-      >
-        {/* Section header */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <span className="text-xs font-mono text-cyan-400 uppercase tracking-[0.3em] mb-4 block">
-            Get to know me
-          </span>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            <span className="text-gradient">About Me</span>
-          </h2>
-          <motion.div
-            className="mt-4 h-[2px] w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-blue-600"
-            initial={{ width: 0 }}
-            animate={isInView ? { width: 64 } : { width: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          />
-        </motion.div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#20221E] leading-[1.1] mb-8">
+              Curious about how things work. Interested in building how they should work.
+            </h2>
 
-        {/* Main content — two columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
-          {/* Left: Profile card */}
-          <motion.div
-            className="lg:col-span-2 flex justify-center"
-            variants={itemVariants}
-          >
-            <div className="relative group">
-              {/* Glow behind card */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            <div className="space-y-6 text-base sm:text-lg text-[#777970] leading-relaxed">
+              <p>
+                I'm a Computer Science student who enjoys taking an idea from a rough concept to a
+                working, dependable application.
+              </p>
+              <p>
+                My interests lie in the intersection of interface development and backend engineering.
+                I enjoy figuring out how different pieces of an application connect, how data flows
+                between layers, and how the final experience feels to the person using it.
+              </p>
+              <p>
+                Most of what I know comes from building, experimenting, and improving things through
+                actual implementation—learning from edge cases, profiling bottlenecks, and refining
+                interfaces until they are responsive and clear.
+              </p>
+            </div>
 
-              <div className="relative glass-strong rounded-2xl p-6 text-center">
-                {/* Profile image */}
-                <div className="relative w-36 h-36 mx-auto mb-6">
-                  <motion.div
-                    className="absolute -inset-1 rounded-full"
-                    style={{
-                      background: "conic-gradient(from 0deg, #00C6FF, #0072FF, #7B2FFF, #00C6FF)",
-                      opacity: 0.5,
-                    }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                  />
-                  <div className="absolute inset-0 rounded-full bg-black" />
+            {/* Direct Work Inquiry Callout */}
+            <div className="mt-10 pt-6 border-t border-[#D7D3C8] flex flex-wrap items-center gap-6 font-mono text-xs text-[#777970]">
+              <span className="text-[#20221E] font-medium">Seeking 2026 Engineering Internships</span>
+              <span className="text-[#D7D3C8]">·</span>
+              <a
+                href="#contact"
+                className="text-[#C74E36] hover:underline flex items-center gap-1"
+              >
+                <span>Initiate conversation</span>
+                <span>↘</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column (42% -> 5 Cols): Personal Record Sheet */}
+          <div className="lg:col-span-5 flex flex-col">
+            <div className="bg-[#E9E6DC] border border-[#D7D3C8] p-6 sm:p-8">
+              {/* Record Header */}
+              <div className="flex items-center justify-between border-b border-[#D7D3C8] pb-4 mb-6 font-mono text-xs">
+                <span className="text-[#20221E] font-semibold uppercase tracking-wider">
+                  Personal Record
+                </span>
+                <span className="text-[#777970]">CM / ARCHIVE-2026</span>
+              </div>
+
+              {/* Compact Portrait Preview */}
+              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#D7D3C8]">
+                <div className="w-16 h-20 bg-[#D7D3C8] border border-[#D7D3C8] overflow-hidden shrink-0">
                   <img
                     src={profilePic}
                     alt="Chandan Meher"
-                    className="relative z-10 w-full h-full object-cover rounded-full"
+                    className="w-full h-full object-cover grayscale"
                   />
                 </div>
-
-                <h3 className="text-2xl font-bold text-white">Chandan Meher</h3>
-                <p className="mt-1 text-sm font-mono text-cyan-400">Full-Stack Developer</p>
-                <p className="mt-1 text-xs text-gray-500">B.Tech (CSE) Student</p>
-
-                {/* Mini stats */}
-                <div className="mt-6 grid grid-cols-3 gap-2">
-                  {stats.map((stat, i) => (
-                    <div key={i} className="text-center p-2">
-                      <div className="text-lg mb-1">{stat.icon}</div>
-                      <div className="text-xl font-bold text-white">{stat.value}</div>
-                      <div className="text-[10px] text-gray-500 uppercase tracking-wider">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA */}
-                <div className="mt-6 flex gap-3">
-                  <motion.a
-                    href="#projects"
-                    className="flex-1 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#00C6FF] to-[#0072FF] rounded-xl text-center"
-                    whileHover={{ scale: 1.03, y: -1 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    Projects
-                  </motion.a>
-                  <motion.a
-                    href="#contact"
-                    className="flex-1 py-2.5 text-sm font-semibold text-white border border-white/10 bg-white/5 rounded-xl text-center hover:bg-white/10 transition-colors"
-                    whileHover={{ scale: 1.03, y: -1 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    Contact
-                  </motion.a>
+                <div>
+                  <h3 className="font-bold text-base text-[#20221E]">Chandan Meher</h3>
+                  <p className="font-mono text-xs text-[#777970] mt-0.5">Software Engineering Student</p>
+                  <span className="inline-block mt-2 text-[10px] font-mono text-[#C74E36] uppercase px-1.5 py-0.5 bg-[#C74E36]/10 border border-[#C74E36]/30">
+                    Candidate Record
+                  </span>
                 </div>
               </div>
+
+              {/* Facts Grid */}
+              <dl className="space-y-3.5 font-mono text-xs">
+                <div className="flex flex-col sm:flex-row sm:justify-between py-1.5 border-b border-[#D7D3C8]/70">
+                  <dt className="text-[#777970] uppercase">Degree Program</dt>
+                  <dd className="text-[#20221E] font-medium text-left sm:text-right">
+                    B.E. Computer Science & Engineering
+                  </dd>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:justify-between py-1.5 border-b border-[#D7D3C8]/70">
+                  <dt className="text-[#777970] uppercase">Academic Performance</dt>
+                  <dd className="text-[#C74E36] font-bold text-left sm:text-right">
+                    CGPA: 9.2 / 10
+                  </dd>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:justify-between py-1.5 border-b border-[#D7D3C8]/70">
+                  <dt className="text-[#777970] uppercase">Institution</dt>
+                  <dd className="text-[#20221E] font-medium text-left sm:text-right">
+                    Dayananda Sagar College of Engineering
+                  </dd>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:justify-between py-1.5 border-b border-[#D7D3C8]/70">
+                  <dt className="text-[#777970] uppercase">Graduation Target</dt>
+                  <dd className="text-[#20221E] font-medium text-left sm:text-right">Expected May 2028</dd>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:justify-between py-1.5 border-b border-[#D7D3C8]/70">
+                  <dt className="text-[#777970] uppercase">Global Benchmark</dt>
+                  <dd className="text-[#20221E] font-medium text-left sm:text-right">
+                    GSSoC 2026: Top 1.1% (Ranked Top 500 / 43k+)
+                  </dd>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:justify-between py-1.5 border-b border-[#D7D3C8]/70">
+                  <dt className="text-[#777970] uppercase">Professional Credential</dt>
+                  <dd className="text-[#20221E] font-medium text-left sm:text-right">
+                    Meta Front-End Developer Certified
+                  </dd>
+                </div>
+
+                <div className="pt-2">
+                  <dt className="text-[#777970] uppercase mb-1.5">Core Engineering Arsenal</dt>
+                  <dd className="text-[#20221E] font-medium bg-[#F2F0E8] p-3 border border-[#D7D3C8] text-[11px] leading-relaxed">
+                    React.js, Next.js, Node.js, TypeScript, PostgreSQL, MongoDB, Socket.io, RAG pipelines, Qdrant, Model Context Protocol (MCP), Docker.
+                  </dd>
+                </div>
+              </dl>
             </div>
-          </motion.div>
-
-          {/* Right: Text content */}
-          <motion.div
-            className="lg:col-span-3 space-y-8"
-            variants={containerVariants}
-          >
-            <motion.div variants={itemVariants}>
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                Crafting Digital Experiences
-              </h3>
-              <p className="text-gray-400 leading-relaxed text-base sm:text-lg">
-                I'm a Frontend developer with a strong focus on creating
-                efficient, user-centered web applications. I enjoy solving
-                real-world problems through clean design and thoughtful development.
-              </p>
-            </motion.div>
-
-            <motion.div variants={itemVariants}>
-              <p className="text-gray-500 leading-relaxed text-base sm:text-lg">
-                Driven by curiosity and attention to detail, I aim to build
-                reliable, high-performing solutions that deliver both functionality
-                and great user experience. My toolkit spans React, Vite, JavaScript,
-                and Tailwind CSS — bringing ideas from concept to production.
-              </p>
-            </motion.div>
-
-            {/* Highlight cards */}
-            <motion.div className="grid grid-cols-1 sm:grid-cols-3 gap-4" variants={containerVariants}>
-              {[
-                { label: "Experience", value: "B.Tech CSE Student", sub: "Passionate learner" },
-                { label: "Speciality", value: "Frontend Dev", sub: "React & Tailwind" },
-                { label: "Focus", value: "Performance", sub: "Design & UX" },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  className="glass rounded-xl p-4 group hover:bg-white/[0.06] transition-all duration-300"
-                  variants={itemVariants}
-                  whileHover={{ y: -3 }}
-                >
-                  <div className="text-xs text-cyan-400/70 font-mono uppercase tracking-wider mb-1">{item.label}</div>
-                  <div className="text-base font-semibold text-white">{item.value}</div>
-                  <div className="text-xs text-gray-500 mt-0.5">{item.sub}</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
